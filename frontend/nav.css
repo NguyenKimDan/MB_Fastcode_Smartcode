@@ -1,0 +1,91 @@
+.nav-tabs {
+    background: #fff;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    border-bottom: 2px solid #e1e4e8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-tabs li {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-tabs a {
+    display: block;
+    padding: 16px 24px;
+    color: #666;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-tabs a:hover {
+    color: #3498db;
+    background: #f8f9fa;
+}
+
+.nav-tabs a.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+.nav-tabs a i {
+    font-size: 1.2rem;
+}
+
+.tab-content {
+    display: none;
+    padding: 32px;
+    background: #fff;
+    min-height: calc(100vh - 180px);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content > div {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Full-screen card styles */
+.full-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f0f2f5;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.card-actions {
+    display: flex;
+    gap: 12px;
+}

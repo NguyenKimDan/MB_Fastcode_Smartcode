@@ -1,0 +1,116 @@
+.report-table-container {
+    margin: 20px 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.report-table th {
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.report-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.report-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.report-table .sql-cell {
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.report-table .sql-cell:hover {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.report-metrics {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+.metric-label {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.performance-indicator {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.performance-good {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.performance-warning {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.performance-critical {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .report-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.report-metrics, .report-table-container {
+    animation: fadeIn 0.5s ease-out forwards;
+}

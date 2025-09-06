@@ -2,28 +2,72 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng ký</title>
+    <title>Đăng ký - Quản Lý Log SQL</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body style="background:#f4f6fa;">
-    <div class="main-header" style="margin-bottom:0;">
-        <h1 style="margin-bottom:0"><span style="color:#27ae60">📝</span> Đăng Ký Tài Khoản</h1>
-    </div>
-    <div style="display:flex;justify-content:center;align-items:center;height:80vh;">
-        <div class="card" style="max-width:400px;width:100%;box-shadow:0 4px 24px rgba(44,62,80,0.12);">
-            <h2 style="text-align:center;color:#27ae60;margin-bottom:24px;">Tạo tài khoản mới</h2>
-            <form id="registerForm" style="display:flex;flex-direction:column;gap:16px;">
-                <input type="text" name="username" placeholder="Tên đăng nhập" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Mật khẩu" required>
-                <button type="submit" class="success" style="width:100%;font-size:18px;">Đăng ký</button>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>📝 Đăng ký tài khoản</h1>
+                <p>Vui lòng điền đầy đủ thông tin bên dưới</p>
+            </div>
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                        Tên người dùng
+                    </label>
+                    <input type="text" id="username" name="username" required
+                           pattern="^[a-zA-Z0-9_]{4,20}$"
+                           title="4-20 ký tự, chỉ bao gồm chữ cái, số và dấu gạch dưới">
+                    <div class="form-hint">4-20 ký tự, chỉ bao gồm chữ cái, số và dấu gạch dưới</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        Mật khẩu
+                    </label>
+                    <input type="password" id="password" name="password" required
+                           minlength="8"
+                           title="Tối thiểu 8 ký tự">
+                    <div class="form-hint">Tối thiểu 8 ký tự</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i>
+                        Xác nhận mật khẩu
+                    </label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div id="errorMessage" class="error-message"></div>
+                
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-user-plus"></i>
+                    Đăng ký
+                </button>
             </form>
-            <div id="registerResult" style="margin-top:16px;color:#e74c3c;text-align:center;"></div>
-            <div style="margin-top:16px;text-align:center;font-size:15px;">
-                Đã có tài khoản? <a href="login.html" style="color:#3498db;text-decoration:underline;">Đăng nhập</a>
+            
+            <div class="auth-footer">
+                Đã có tài khoản? 
+                <a href="login.html">Đăng nhập ngay</a>
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="auth.js"></script>
 </body>
 </html>

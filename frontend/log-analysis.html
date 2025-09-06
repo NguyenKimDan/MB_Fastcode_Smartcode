@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="log-analysis.css">
+</head>
+<body>
+    <div class="container">
+        <div class="analyzer-header">
+            <h1>Log Analysis</h1>
+            <div class="actions">
+                <button id="selectFile" class="btn primary">
+                    <i class="fas fa-file-upload"></i>
+                    Chọn File Log
+                </button>
+                <button id="startAnalysis" class="btn secondary" disabled>
+                    <i class="fas fa-play"></i>
+                    Bắt đầu Phân tích
+                </button>
+            </div>
+        </div>
+
+        <div class="analyzer-content">
+            <div id="progressSteps" class="progress-steps"></div>
+            
+            <div class="log-container">
+                <div id="logDetails" class="log-details"></div>
+            </div>
+
+            <div id="summaryStats" class="summary-stats"></div>
+        </div>
+    </div>
+
+    <script src="log-analyzer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const analyzer = new LogAnalyzer();
+            const selectFileBtn = document.getElementById('selectFile');
+            const startAnalysisBtn = document.getElementById('startAnalysis');
+
+            selectFileBtn.addEventListener('click', () => {
+                // Giả lập việc chọn file
+                startAnalysisBtn.disabled = false;
+            });
+
+            startAnalysisBtn.addEventListener('click', () => {
+                analyzer.initAnalysis();
+                
+                // Giả lập quá trình phân tích
+                setTimeout(() => {
+                    analyzer.addLogEntry('info', 'Đang đọc file log...');
+                }, 1000);
+
+                setTimeout(() => {
+                    analyzer.updateSteps('parse', 'active');
+                    analyzer.addLogEntry('info', 'Bắt đầu phân tích nội dung...');
+                }, 2000);
+
+                setTimeout(() => {
+                    analyzer.updateSteps('validate', 'active');
+                    analyzer.addLogEntry('warning', 'Phát hiện một số log không hợp lệ');
+                }, 3000);
+
+                setTimeout(() => {
+                    analyzer.updateSteps('import', 'active');
+                    analyzer.addLogEntry('success', 'Import dữ liệu thành công');
+                }, 4000);
+
+                setTimeout(() => {
+                    analyzer.updateSteps('import', 'completed');
+                    analyzer.updateSummary({
+                        total: 1500,
+                        imported: 1450,
+                        errors: 10,
+                        skipped: 40
+                    });
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

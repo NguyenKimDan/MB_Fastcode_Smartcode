@@ -1,8 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from . import auth, crud, log_parser, report
+from .log_importer import import_logs_on_startup
+import logging
 
 app = FastAPI()
+
+@app.on_event("startup")
+async def startup_event():
+    logging.info("Starting up - importing logs...")
+    import_logs_on_startup()
 
 app.add_middleware(
     CORSMiddleware,
