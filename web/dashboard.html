@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Log Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        select {
+            padding: 8px;
+            margin-bottom: 20px;
+            min-width: 200px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .error {
+            color: red;
+            padding: 20px;
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SQL Log Analyzer</h1>
+        
+        <select id="databaseSelect">
+            <option value="">Select a database...</option>
+        </select>
+
+        <div id="loading" class="loading" style="display: none;">Loading...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <table id="resultsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>SQL Query</th>
+                    <th>Exec Time (ms)</th>
+                    <th>Exec Count</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load databases on startup
+            try {
+                const response = await fetch('/api/logs/databases');
+                const databases = await response.json();
+                
+                const select = document.getElementById('databaseSelect');
+                databases.forEach(db => {
+                    const option = document.createElement('option');
+                    option.value = db;
+                    option.textContent = db;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                showError('Error loading databases');
+                console.error('Error:', error);
+            }
+
+            // Handle database selection
+            document.getElementById('databaseSelect').addEventListener('change', async (e) => {
+                const selectedDb = e.target.value;
+                if (!selectedDb) return;
+
+                showLoading();
+                try {
+                    const response = await fetch(`/api/logs/logs/${encodeURIComponent(selectedDb)}`);
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.detail || 'Error fetching logs');
+                    }
+
+                    displayResults(data);
+                } catch (error) {
+                    showError(error.message);
+                    console.error('Error:', error);
+                }
+                hideLoading();
+            });
+        });
+
+        function displayResults(logs) {
+            const table = document.getElementById('resultsTable');
+            const tbody = document.getElementById('resultsBody');
+            const error = document.getElementById('error');
+
+            error.style.display = 'none';
+            tbody.innerHTML = '';
+
+            if (logs.length === 0) {
+                showError('Không tìm thấy truy vấn nào cho DB này');
+                table.style.display = 'none';
+                return;
+            }
+
+            logs.forEach(log => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = log.sql_query;
+                row.insertCell().textContent = log.execution_time.toFixed(2);
+                row.insertCell().textContent = log.execution_count;
+            });
+
+            table.style.display = 'table';
+        }
+
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.style.display = 'block';
+            document.getElementById('resultsTable').style.display = 'none';
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('resultsTable').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
