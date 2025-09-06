@@ -1,3 +1,16 @@
+// Gợi ý tối ưu hóa truy vấn
+async function fetchOptimizationSuggestions() {
+    const res = await fetch('http://localhost:8000/report/summary');
+    const data = await res.json();
+    const container = document.getElementById('optimizationSuggestions');
+    if (data.abnormal_queries && data.abnormal_queries.length) {
+        container.innerHTML = `<div class='highlight'>Tổng số truy vấn bất thường: <b>${data.abnormal_count}</b> | Số gợi ý: <b>${data.suggestion_count}</b></div>` +
+            '<table><tr><th>DB</th><th>SQL</th><th>Time</th><th>Count</th><th>Gợi Ý</th></tr>' +
+            data.abnormal_queries.map(q => `<tr><td>${q.db_name}</td><td>${q.sql_query}</td><td>${q.exec_time_ms}</td><td>${q.exec_count}</td><td><span style='color:#27ae60;font-weight:bold'>${q.suggestion}</span></td></tr>`).join('') + '</table>';
+    } else {
+        container.innerHTML = `<div class='highlight'>Không có truy vấn bất thường nào để tối ưu hóa</div>`;
+    }
+}
 // Đăng ký
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').onsubmit = async function(e) {
