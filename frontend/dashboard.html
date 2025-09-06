@@ -14,34 +14,41 @@
     <main class="dashboard-grid">
         <section class="card">
             <h2>Phân tích file log SQL <span style="font-size:18px">🗂️</span></h2>
+    <header class="main-header" style="box-shadow:0 4px 24px rgba(52,152,219,0.10);border-bottom-left-radius:32px;border-bottom-right-radius:32px;">
+        <h1 style="font-size:2.5rem;margin-bottom:0;color:#3498db;letter-spacing:1px;font-weight:700;">
+            <span style="font-size:2.5rem;vertical-align:middle;">📊</span> Dashboard Quản Lý Log SQL
+        </h1>
+        <div id="userInfo" style="margin-top:8px;font-size:1.1rem;color:#fff;"></div>
+    </header>
+    <main class="dashboard-grid" style="margin-top:32px;">
+        <section class="card" style="border-top:4px solid #3498db;">
+            <h2 style="color:#3498db;font-size:1.3rem;font-weight:600;">🗂️ Phân tích file log SQL</h2>
             <input type="file" id="logFile">
             <button class="primary" onclick="uploadLogFile()">Phân tích</button>
             <div id="logResult"></div>
         </section>
-        <section class="card">
-            <h2>Danh sách Database <span style="font-size:18px">🗄️</span></h2>
+        <section class="card" style="border-top:4px solid #27ae60;">
+            <h2 style="color:#27ae60;font-size:1.3rem;font-weight:600;">🗄️ Danh sách Database</h2>
             <select id="dbDropdown" onchange="fetchQueries()"></select>
             <div id="queries"></div>
         </section>
-        <section class="card">
-            <h2>Quét truy vấn bất thường <span style="font-size:18px">⚠️</span></h2>
+        <section class="card" style="border-top:4px solid #e67e22;">
+            <h2 style="color:#e67e22;font-size:1.3rem;font-weight:600;">⚠️ Quét truy vấn bất thường</h2>
             <button class="danger" onclick="scanAbnormalQueries()">Quét</button>
             <div id="abnormalResult"></div>
         </section>
-        <section class="card">
-            <h2>Báo cáo & Xuất file <span style="font-size:18px">📑</span></h2>
+        <section class="card" style="border-top:4px solid #9b59b6;">
+            <h2 style="color:#9b59b6;font-size:1.3rem;font-weight:600;">📑 Báo cáo & Xuất file</h2>
             <button class="success" onclick="fetchReportSummary()">Tạo Báo Cáo</button>
             <button class="primary" onclick="downloadCSV()">Tải CSV</button>
             <button class="primary" onclick="downloadPDF()">Tải PDF</button>
             <div id="reportSummary"></div>
         </section>
-
-        <section class="card">
-            <h2>Gợi Ý Tối Ưu Hóa Truy Vấn <span style="font-size:18px">💡</span></h2>
+        <section class="card" style="border-top:4px solid #f1c40f;">
+            <h2 style="color:#f1c40f;font-size:1.3rem;font-weight:600;">💡 Gợi Ý Tối Ưu Hóa Truy Vấn</h2>
             <button class="primary" onclick="fetchOptimizationSuggestions()">Xem Gợi Ý</button>
             <div id="optimizationSuggestions"></div>
         </section>
     </main>
     <script src="script.js"></script>
 </body>
-</html>

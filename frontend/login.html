@@ -5,14 +5,24 @@
     <title>Đăng nhập</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h2>Đăng nhập</h2>
-    <form id="loginForm">
-        <input type="text" name="username" placeholder="Tên đăng nhập" required><br>
-        <input type="password" name="password" placeholder="Mật khẩu" required><br>
-        <button type="submit">Đăng nhập</button>
-    </form>
-    <div id="loginResult"></div>
+<body style="background:#f4f6fa;">
+    <div class="main-header" style="margin-bottom:0;">
+        <h1 style="margin-bottom:0"><span style="color:#3498db">🔒</span> Đăng Nhập Hệ Thống</h1>
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;height:80vh;">
+        <div class="card" style="max-width:400px;width:100%;box-shadow:0 4px 24px rgba(44,62,80,0.12);">
+            <h2 style="text-align:center;color:#3498db;margin-bottom:24px;">Đăng nhập tài khoản</h2>
+            <form id="loginForm" style="display:flex;flex-direction:column;gap:16px;">
+                <input type="text" name="username" placeholder="Tên đăng nhập" required>
+                <input type="password" name="password" placeholder="Mật khẩu" required>
+                <button type="submit" class="primary" style="width:100%;font-size:18px;">Đăng nhập</button>
+            </form>
+            <div id="loginResult" style="margin-top:16px;color:#e74c3c;text-align:center;"></div>
+            <div style="margin-top:16px;text-align:center;font-size:15px;">
+                Chưa có tài khoản? <a href="register.html" style="color:#3498db;text-decoration:underline;">Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
