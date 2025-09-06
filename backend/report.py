@@ -1,4 +1,5 @@
 
+
 from fastapi import APIRouter, HTTPException
 from .database import SessionLocal
 from .models import LogEntry
@@ -8,6 +9,7 @@ from io import StringIO, BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import datetime
+import re
 
 router = APIRouter(prefix="/report", tags=["report"])
 
@@ -17,13 +19,24 @@ def get_abnormal_and_suggestion():
     abnormal = []
     for q in logs:
         is_abnormal = q.exec_time_ms > 500 and q.exec_count > 100
-        suggestion = ""  # Gợi ý tối ưu hóa
+        suggestion = "Khuyến nghị xem xét thủ công"  # Mặc định nếu không phân tích được
+        sql = q.sql_query
         # Phân tích mệnh đề WHERE để gợi ý index
-        if "WHERE" in q.sql_query.upper():
-            where_clause = q.sql_query.upper().split("WHERE", 1)[1]
-            fields = [f.strip().split()[0] for f in where_clause.split("AND")]
-            if fields:
-                suggestion = ", ".join([f"Thêm index trên {field}" for field in fields])
+        if "WHERE" in sql.upper():
+            try:
+                where_clause = sql.split("WHERE", 1)[1]
+                # Tách các điều kiện bằng AND
+                conditions = [cond.strip() for cond in where_clause.split("AND")]
+                fields = []
+                for cond in conditions:
+                    # Lấy tên trường trước dấu =, >, <, LIKE, IN...
+                    match = re.match(r"([a-zA-Z0-9_]+)", cond)
+                    if match:
+                        fields.append(match.group(1))
+                if fields:
+                    suggestion = ", ".join([f"Thêm index trên {field}" for field in fields])
+            except Exception:
+                suggestion = "Khuyến nghị xem xét thủ công"
         if is_abnormal:
             abnormal.append({
                 "db_name": q.db_name,
