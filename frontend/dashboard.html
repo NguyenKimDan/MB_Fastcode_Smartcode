@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="main-header">
+        <h1><span style="color:#3498db">📊</span> Dashboard Quản Lý Log SQL</h1>
+        <div id="userInfo"></div>
+    </header>
+    <main class="dashboard-grid">
+        <section class="card">
+            <h2>Phân tích file log SQL <span style="font-size:18px">🗂️</span></h2>
+            <input type="file" id="logFile">
+            <button class="primary" onclick="uploadLogFile()">Phân tích</button>
+            <div id="logResult"></div>
+        </section>
+        <section class="card">
+            <h2>Danh sách Database <span style="font-size:18px">🗄️</span></h2>
+            <select id="dbDropdown" onchange="fetchQueries()"></select>
+            <div id="queries"></div>
+        </section>
+        <section class="card">
+            <h2>Quét truy vấn bất thường <span style="font-size:18px">⚠️</span></h2>
+            <button class="danger" onclick="scanAbnormalQueries()">Quét</button>
+            <div id="abnormalResult"></div>
+        </section>
+        <section class="card">
+            <h2>Báo cáo & Xuất file <span style="font-size:18px">📑</span></h2>
+            <button class="success" onclick="fetchReportSummary()">Tạo Báo Cáo</button>
+            <button class="primary" onclick="downloadCSV()">Tải CSV</button>
+            <button class="primary" onclick="downloadPDF()">Tải PDF</button>
+            <div id="reportSummary"></div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

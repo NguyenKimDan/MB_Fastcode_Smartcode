@@ -1,0 +1,108 @@
+
+body {
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	background: #f4f6fa;
+}
+.main-header {
+	background: #3498db;
+	color: #fff;
+	padding: 24px 0 16px 0;
+	text-align: center;
+	box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+	margin-bottom: 24px;
+}
+.dashboard-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 24px;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 16px 32px 16px;
+}
+.card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(44,62,80,0.08);
+	padding: 24px 20px 20px 20px;
+	margin-bottom: 0;
+	transition: box-shadow 0.2s;
+}
+.card:hover {
+	box-shadow: 0 4px 24px rgba(44,62,80,0.12);
+}
+h1, h2, h3 {
+	color: #2c3e50;
+	margin-top: 0;
+}
+input, button, select {
+	margin: 8px 0;
+	padding: 10px;
+	border-radius: 6px;
+	border: 1px solid #dbe2ef;
+	font-size: 16px;
+}
+button {
+	background: #3498db;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	font-weight: 500;
+	margin-right: 8px;
+	box-shadow: 0 1px 4px rgba(52,152,219,0.08);
+	transition: background 0.2s;
+}
+button.primary {
+	background: #3498db;
+}
+button.success {
+	background: #27ae60;
+}
+button.danger {
+	background: #e74c3c;
+}
+button:hover {
+	background: #2980b9;
+}
+button.success:hover {
+	background: #219150;
+}
+button.danger:hover {
+	background: #c0392b;
+}
+select {
+	min-width: 180px;
+}
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 12px;
+	background: #fafbfc;
+	border-radius: 8px;
+	overflow: hidden;
+}
+th, td {
+	padding: 10px 8px;
+	border-bottom: 1px solid #e1e4e8;
+	text-align: left;
+}
+th {
+	background: #f0f4f8;
+	color: #3498db;
+	font-weight: 600;
+}
+tr:last-child td {
+	border-bottom: none;
+}
+tr[style*="background:#f8d7da"] {
+	background: #ffeaea !important;
+}
+@media (max-width: 700px) {
+	.dashboard-grid {
+		grid-template-columns: 1fr;
+		padding: 0 4px;
+	}
+	.card {
+		padding: 16px 8px;
+	}
+}
