@@ -4,12 +4,35 @@ from .database import SessionLocal
 from .models import LogEntry, AbnormalQuery
 from typing import List
 
+
 router = APIRouter(prefix="/crud", tags=["crud"])
 
+
+# API phát hiện truy vấn bất thường
+@router.get("/scan_abnormal")
+def scan_abnormal():
+    db = SessionLocal()
+    abnormal = db.query(LogEntry).filter(LogEntry.exec_time_ms > 500, LogEntry.exec_count > 100).all()
+    result = []
+    for q in abnormal:
+        result.append({
+            "db_name": q.db_name,
+            "sql_query": q.sql_query,
+            "exec_time_ms": q.exec_time_ms,
+            "exec_count": q.exec_count,
+            "status": "Bất thường"
+        })
+    db.close()
+    return {
+        "total": len(result),
+        "abnormal_queries": result,
+        "message": "Không phát hiện truy vấn bất thường nào" if not result else "Đã phát hiện truy vấn bất thường"
+    }
 @router.get("/log_entries")
 def get_log_entries():
     db = SessionLocal()
     logs = db.query(LogEntry).all()
+    db.close()
     return logs
 
 @router.get("/databases")

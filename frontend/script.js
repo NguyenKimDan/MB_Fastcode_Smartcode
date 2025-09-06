@@ -78,16 +78,15 @@ async function fetchQueries() {
     }
 }
 async function scanAbnormalQueries() {
-    // Giả lập quét bất thường, thực tế cần API riêng
-    const res = await fetch('http://localhost:8000/crud/log_entries');
-    const logs = await res.json();
-    const abnormal = logs.filter(q => q.exec_time_ms > 500 && q.exec_count > 100);
+    const res = await fetch('http://localhost:8000/crud/scan_abnormal');
+    const data = await res.json();
     const resultDiv = document.getElementById('abnormalResult');
-    if (abnormal.length) {
-        resultDiv.innerHTML = '<table><tr><th>DB</th><th>SQL</th><th>Time</th><th>Count</th></tr>' +
-            abnormal.map(q => `<tr style="background:#f8d7da"><td>${q.db_name}</td><td>${q.sql_query}</td><td>${q.exec_time_ms}</td><td>${q.exec_count}</td></tr>`).join('') + '</table>';
+    if (data.abnormal_queries && data.abnormal_queries.length) {
+        resultDiv.innerHTML = `<div class="highlight">Tổng số truy vấn bất thường: <b>${data.total}</b></div>` +
+            '<table><tr><th>DB</th><th>SQL</th><th>Time</th><th>Count</th><th>Trạng thái</th></tr>' +
+            data.abnormal_queries.map(q => `<tr style="background:#ffeaea"><td>${q.db_name}</td><td>${q.sql_query}</td><td>${q.exec_time_ms}</td><td>${q.exec_count}</td><td><span style='color:#e74c3c;font-weight:bold'>${q.status}</span></td></tr>`).join('') + '</table>';
     } else {
-        resultDiv.innerText = 'Không phát hiện truy vấn bất thường nào';
+        resultDiv.innerHTML = `<div class="highlight">Không phát hiện truy vấn bất thường nào</div>`;
     }
 }
 async function fetchReportSummary() {
