@@ -53,17 +53,54 @@ if (document.getElementById('loginForm')) {
 }
 // Dashboard functions
 async function uploadLogFile() {
-    const fileInput = document.getElementById('logFile');
-    if (!fileInput.files.length) return;
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
-    const res = await fetch('http://localhost:8000/log/parse', {
-        method: 'POST',
-        body: formData
-    });
-    const data = await res.json();
-    document.getElementById('logResult').innerText = data.message;
-    fetchDatabases();
+    try {
+        const fileInput = document.getElementById('logFile');
+        if (!fileInput.files.length) {
+            alert('Vui lòng chọn file log để tải lên');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        if (!file.name.toLowerCase().endsWith('.log')) {
+            alert('Chỉ chấp nhận file có đuôi .log');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        document.getElementById('logResult').innerHTML = '<div class="loading">Đang xử lý file log...</div>';
+
+        const res = await fetch('http://localhost:8000/log/parse', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.detail || 'Lỗi khi xử lý file');
+        }
+
+        let resultHTML = `<div class="success">${data.message}</div>`;
+        
+        // Hiển thị chi tiết lỗi nếu có
+        if (data.error_details && data.error_details.length > 0) {
+            resultHTML += '<div class="error-details"><h4>Chi tiết lỗi:</h4><ul>';
+            data.error_details.forEach(err => {
+                resultHTML += `<li>${err}</li>`;
+            });
+            resultHTML += '</ul></div>';
+        }
+
+        document.getElementById('logResult').innerHTML = resultHTML;
+
+        if (data.imported > 0) {
+            fetchDatabases();
+        }
+    } catch (error) {
+        document.getElementById('logResult').innerHTML = `<div class="error">${error.message}</div>`;
+    }
 }
 async function fetchDatabases() {
     const res = await fetch('http://localhost:8000/crud/databases');
